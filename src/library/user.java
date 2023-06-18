@@ -39,7 +39,7 @@ public class user {
                 path = "src/Cessna Skylane";
                 horizontal = 2;
                 vertical = 1;
-                spacing = 0;
+                spacing = 1;
                 break;
             case 2:
                 path = "src/Citation Ascend";
@@ -48,10 +48,10 @@ public class user {
                 spacing = 2;
                 break;
             case 3:
-                path = "Boeing 767-300ER";
+                path = "src/Boeing 767-300ER";
                 vertical = 45;
                 horizontal = 7;
-                spacing =
+                spacing = 5;
                 break;
         }
         FileReader file = new FileReader(path);
@@ -65,7 +65,12 @@ public class user {
         for (int j = 0; j < horizontal; j++) {
             for (int k = 0; k < vertical; k++) {
                 System.out.printf("%b ", aircraft[j][k]);
-                if(vertical%spacing)
+                if(i%7==0){
+                    System.out.println();
+                    if(k%spacing==0 && k!=0){
+                        System.out.println();
+                    }
+                }
             }
         }
     }

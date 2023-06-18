@@ -14,5 +14,6 @@ public class C3Airlines {
             teste.hold(pride);
         } while (!pride.startsWith("sair"));
         teste.write(teste.h);
+        teste.read(3);
     }
 }
