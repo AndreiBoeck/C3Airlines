@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class User {
     private static final String USER_DIR = System.getProperty("user.dir");
     private static final String os = System.getProperty("os.name").toLowerCase();
-    private PrintStream file = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
+    private final PrintStream file = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
     private int i = 0;
     public ArrayList<String> h = new ArrayList<>();
     private String path = "";
@@ -26,7 +26,7 @@ public class User {
     //preço
     //assento
     //tipo do assento
-    public void write(ArrayList<String> names) throws FileNotFoundException {
+    public void write(ArrayList<String> names) {
         for (int j = 0; j < i; j++) {
             file.println(names.get(j));
         }
@@ -48,25 +48,25 @@ public class User {
         return h;
     }
     public boolean[][] read(int escolha) throws FileNotFoundException {
-        switch (escolha){
-            case 1:
+        switch (escolha) {
+            case 1 -> {
                 path = USER_DIR + "/library/source/Cessna Skylane";
                 horizontal = 2;
                 vertical = 1;
                 spacing = 1;
-                break;
-            case 2:
+            }
+            case 2 -> {
                 path = USER_DIR + "/library/source/Citation Ascend";
                 vertical = 6;
                 horizontal = 2;
                 spacing = 2;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 path = USER_DIR + "/library/source/Boeing 767-300ER";
                 vertical = 45;
                 horizontal = 7;
                 spacing = 5;
-                break;
+            }
         }
         FileReader fi = new FileReader(path);
         Scanner in = new Scanner(fi);
@@ -89,61 +89,37 @@ public class User {
                 }
         }
     }
+    @SuppressWarnings("resource")
     public void sell(boolean[][] seats, String command) throws FileNotFoundException {
         PrintStream boeing = new PrintStream(USER_DIR + "/library/source/Boeing 767-300ER");
         System.out.println(command);
-        String choice = command.substring(0);
-        System.out.println(choice);
+        System.out.println(command);
 
-        char letter = choice.charAt(0);
+        char letter = command.charAt(0);
         System.out.println(letter);
 
-        int number = Integer.parseInt(choice.substring(1));
+        int number = Integer.parseInt(command.substring(1));
         System.out.println(number);
 
         int line;
-        int column;
-
-        switch(letter) {
-            case 'A' :
-            case 'a' :
-                column = 0;
-                break;
-            case 'B' :
-            case 'b' :
-                column = 1;
-                break;
-            case 'C' :
-            case 'c' :
-                column = 2;
-                break;
-            case 'D' :
-            case 'd' :
-                column = 3;
-                break;
-            case 'E' :
-            case 'e' :
-                column = 4;
-                break;
-            case 'F' :
-            case 'f' :
-                column = 5;
-                break;
-            case 'G' :
-            case 'g' :
-                column = 6;
-                break;
-            default:
-                column = -1;
-        }
+        int column = switch (letter) {
+            case 'A', 'a' -> 0;
+            case 'B', 'b' -> 1;
+            case 'C', 'c' -> 2;
+            case 'D', 'd' -> 3;
+            case 'E', 'e' -> 4;
+            case 'F', 'f' -> 5;
+            case 'G', 'g' -> 6;
+            default -> -1;
+        };
 
         line = number - 1;
-        if (seats [line][column])
+        if (seats [column][line])
             System.out.println("Assento OCUPADO!");
         else {
-            seats[line][column] = true;
+            seats[column][line] = true;
             int next;
-            if (column == 0 || column == 2) {
+            if (column == 0 || column == 6) {
                 next = column + 1;
             } else {
                 next = column - 1;
@@ -152,7 +128,23 @@ public class User {
         }
         for (int j = 0; j < 45; j++) {
             for (int k = 0; k < 7; k++) {
-                boeing.print(seats[j][k]);
+                boeing.print(seats[k][j] + " ");
+            }
+            boeing.println();
+        }
+    }
+    @SuppressWarnings("resource")
+    public void reset() throws FileNotFoundException {
+        PrintStream boeing = new PrintStream(USER_DIR + "/library/source/Boeing 767-300ER");
+        boolean[][] aircraft = new boolean[7][45];
+        for (int j = 0; j < 45; j++) {
+            for (int k = 0; k < 7; k++) {
+                aircraft[k][j] = false;
+            }
+        }
+        for (int j = 0; j < 45; j++) {
+            for (int k = 0; k < 7; k++) {
+                boeing.print(aircraft[k][j] + " ");
             }
             boeing.println();
         }

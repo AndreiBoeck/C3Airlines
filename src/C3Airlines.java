@@ -9,7 +9,7 @@ public class C3Airlines {
         Scanner in = new Scanner(System.in);
         int choice = -1;
         do{
-            System.out.printf("[1] Agendar Aeronave\n[2] Venda de passagens\n[3] Informações de clientes\n[0] Sair\n");
+            System.out.printf("[1] Agendar Aeronave\n[2] Venda de passagens\n[3] Informações de clientes\n[4] Reset Boeing\n[0] Sair\n");
             choice = in.nextInt();
             airline.clear();
             switch (choice){
@@ -23,6 +23,9 @@ public class C3Airlines {
                     airline.sell(airline.read(3), seats);
                     break;
                 case 3:
+                    break;
+                case 4:
+                    airline.reset();
                     break;
             }
         }
