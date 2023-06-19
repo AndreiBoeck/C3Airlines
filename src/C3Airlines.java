@@ -1,19 +1,31 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import library.User;
+
+import java.io.IOException;
 import java.util.Scanner;
 
-import library.user;
-
 public class C3Airlines {
-    public static void main(String[] args) throws FileNotFoundException {
-        user teste = new user();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        User airline = new User();
         Scanner in = new Scanner(System.in);
-        String pride = "";
-        do {
-            pride = in.next();
-            teste.hold(pride);
-        } while (!pride.startsWith("sair"));
-        teste.write(teste.h);
-        teste.read(3);
+        int choice = -1;
+        do{
+            System.out.printf("[1] Agendar Aeronave\n[2] Venda de passagens\n[3] Informações de clientes\n[0] Sair\n");
+            choice = in.nextInt();
+            airline.clear();
+            switch (choice){
+                case 1:
+                    System.out.printf("Agendar Aeronave:\n[1] Cessna Skylane\n[2] Citation Ascend\n");
+                    choice = in.nextInt();
+                    break;
+                case 2:
+                    airline.print(airline.read(3));
+                    String seats = in.next();
+                    airline.sell(airline.read(3), seats);
+                    break;
+                case 3:
+                    break;
+            }
+        }
+        while(choice!=0);
     }
 }
