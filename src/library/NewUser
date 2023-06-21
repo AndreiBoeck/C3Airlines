@@ -165,19 +165,35 @@ public class UserNew {
         }
     }
 }
-//function notifyHelpdesk(){
-//let sally = SpreadsheetApp.getActive().getSheetByName("Sally Smith");
-//let data = sally.getRange("A2:C41").getValues();
-//let i = data[0]
+/*function notifyHelpdesk(){
+let sally = SpreadsheetApp.getActive().getSheetByName("Sally Smith");
+let data = sally.getRange("A2:C41").getValues();
+let i = data[0]
 
-//for(i,i = data[42],i++){
-//if (data[i][0] === true && data[i][1]===true && data [i][2]===true && data[i][3] ===false){
-//MailApp.sendEmail({
-//to: "genericaddress@company.net",
-//subject: "New Invoice Submitted",
-//htmlBody: "A contractor has submitted a new invoice! Please find details in the Master Invoice    tracker sheet:www.fakelinktosheet.com"
-//});
-//}
-//}
-//}
-//https://stackoverflow.com/questions/76144418/how-do-i-iterate-through-sheet-rows-and-check-if-one-cell-in-row-is-false
+for(i,i = data[42],i++){
+if (data[i][0] === true && data[i][1]===true && data [i][2]===true && data[i][3] ===false){
+MailApp.sendEmail({
+to: "genericaddress@company.net",
+subject: "New Invoice Submitted",
+htmlBody: "A contractor has submitted a new invoice! Please find details in the Master Invoice    tracker sheet:www.fakelinktosheet.com"
+});
+}
+}
+}
+https://stackoverflow.com/questions/76144418/how-do-i-iterate-through-sheet-rows-and-check-if-one-cell-in-row-is-false
+function notifyHelpdesk() {
+  const ss = SpreadsheetApp.getActive();
+  const sh1 = SpreadsheetApp.getActive().getSheetByName("Sally Smith");
+  let vs1 = sh1.getRange("A2:D41").getValues();//you did not include column D in your function
+  let i = vs1[0]
+  vs.forEach((r, i) => {
+    //just check for truthiness in first three columns
+    if (r[0] && r[1] && r[2] && r[3] == false) {
+      MailApp.sendEmail({
+        to: "genericaddress@company.net",
+        subject: "New Invoice Submitted",
+        htmlBody: "A contractor has submitted a new invoice! Please find details in the Master Invoice    tracker sheet:www.fakelinktosheet.com"
+      });
+    }
+  })
+}*/
