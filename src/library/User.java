@@ -6,6 +6,13 @@ import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+//==============================================================
+//============Andrei Cunha Böeck e Henrique Denardin============
+//=================andrei.boeck@edu.pucrs.br====================
+//===============henrique.denardin@edu.pucrs.br=================
+//==Trabalho destinado a cadeira de fundamentos da programação==
+//==============================================================
+
 public class User {
     private static final String USER_DIR = System.getProperty("user.dir");
     private static final String os = System.getProperty("os.name").toLowerCase();

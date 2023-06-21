@@ -2,6 +2,14 @@
 import java.io.IOException;
 import java.util.Scanner;
 import library.User;
+
+//==============================================================
+//============Andrei Cunha Böeck e Henrique Denardin============
+//=================andrei.boeck@edu.pucrs.br====================
+//===============henrique.denardin@edu.pucrs.br=================
+//==Trabalho destinado a cadeira de fundamentos da programação==
+//==============================================================
+
 public class C3Airlines {
     public static void main(String[] args) throws IOException, InterruptedException {
         User airline = new User();
