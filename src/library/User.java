@@ -1,7 +1,9 @@
 package library;
 
-
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class User {
@@ -9,111 +11,61 @@ public class User {
     private static final String os = System.getProperty("os.name").toLowerCase();
 
     private final PrintStream file = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
-    private String path = "";
-    private int vertical = 0;
-    private int horizontal = 0;
-    private int spacing = 0;
+    private String path;
+    private int horizontal(int choice) throws FileNotFoundException {
+        FileReader file = new FileReader(USER_DIR + getPath(choice));
+        Scanner fl = new Scanner(file);
+        String line = fl.nextLine();
+        String[] array = line.split(", ");
+        return array.length;
+    }
+    private int vertical(int choice) throws FileNotFoundException {
+        FileReader file = new FileReader(USER_DIR + getPath(choice));
+        Scanner fl = new Scanner(file);
+        int vertical = 0;
+        while (fl.hasNextLine()){
+            vertical++;
+        }
+        return vertical;
+    }
 
     public User() throws FileNotFoundException {
     }
-
-    //implementar
-    //quem
-    //destino
-    //aeronave
-    //preço
-    //assento
-    //tipo do assento
     private String getPath(int choice){
         switch (choice) {
             case 1 -> {
                 path = USER_DIR + "/library/source/Cessna Skylane";
-                horizontal = 1;
-                vertical = 2;
-                spacing = 1;
+
             }
             case 2 -> {
                 path = USER_DIR + "/library/source/Citation Ascend";
-                vertical = 2;
-                horizontal = 6;
-                spacing = 2;
+
             }
             case 3 -> {
                 path = USER_DIR + "/library/source/Boeing 767-300ER";
-                vertical = 7;
-                horizontal = 45;
-                spacing = 5;
             }
         }
         return path;
     }
-    public void clear() throws IOException, InterruptedException {
-
-        if(os.contains("win")){
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        }
-        else{
-            new ProcessBuilder("clear").inheritIO().start().waitFor();
-        }
-    }
-    public void rentAircraft(int choice) throws FileNotFoundException {
-        FileReader file = new FileReader(getPath(choice));
-        Scanner in = new Scanner(file);
-        Scanner sy = new Scanner(System.in);
-        String rent;
-        for (int i = 0; i < vertical; i++) {
-            for (int j = 0; j < horizontal; j++) {
-                System.out.print(in.nextBoolean() + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("Quer reservar?\nS ou N");
-        rent = sy.next();
-        if (rent.startsWith("S") || rent.startsWith("s")) {
-            rent(choice);
-        }
-    }
-    private void rent(int choice) throws FileNotFoundException {
-        FileReader check = new FileReader(getPath(choice));
-        Scanner in = new Scanner(check);
-        if(in.nextBoolean()){
-            System.out.println("Avião ja locado!!");
-        }
-        else {
-            PrintStream file = new PrintStream(getPath(choice));
-            for (int i = 0; i < vertical; i++) {
-                for (int j = 0; j < horizontal; j++) {
-                    file.println(true + " ");
-                }
-                file.println();
-            }
-            createUser();
-        }
-    }
-
     public boolean[][] read(int choice) throws FileNotFoundException {
         FileReader fi = new FileReader(getPath(choice));
         Scanner in = new Scanner(fi);
-        boolean[][] aircraft = new boolean[horizontal][vertical];
-        for (int j = 0; j < horizontal; j++) {
-            for (int k = 0; k < vertical; k++) {
+        boolean[][] aircraft = new boolean[horizontal(choice)][vertical(choice)];
+        for (int j = 0; j < aircraft.length; j++) {
+            for (int k = 0; k < aircraft[j].length; k++) {
                 aircraft[j][k] = in.nextBoolean();
             }
         }
         return aircraft;
     }
     public void print(boolean[][] aircraft) {
-        for (int j = 0; j < vertical; j++) {
-            for (int k = 0; k < horizontal; k++) {
+        for (int j = 0; j < aircraft.length; j++) {
+            for (int k = 0; k < aircraft[j].length; k++) {
                 System.out.print(aircraft[k][j] + " ");
             }
             System.out.println();
-                if(j % spacing == 0 && j!=0){
-                    System.out.println();
-                }
         }
     }
-    @SuppressWarnings("resource")
     public void sell(boolean[][] seats, String command) throws FileNotFoundException {
         PrintStream boeing = new PrintStream(USER_DIR + "/library/source/Boeing 767-300ER");
         System.out.println(command);
@@ -149,20 +101,16 @@ public class User {
         }
 
     }
-    private void saveClientSeat(){
-        PrintStream
-    }
-    @SuppressWarnings("resource")
     public void reset(int choice) throws FileNotFoundException {
         PrintStream boeing = new PrintStream(getPath(choice));
-        boolean[][] aircraft = new boolean[vertical][horizontal];
-        for (int j = 0; j < horizontal; j++) {
-            for (int k = 0; k < vertical; k++) {
+        boolean[][] aircraft = new boolean[vertical(choice)][horizontal(choice)];
+        for (int j = 0; j < aircraft.length; j++) {
+            for (int k = 0; k < aircraft[j].length; k++) {
                 aircraft[k][j] = false;
             }
         }
-        for (int j = 0; j < horizontal; j++) {
-            for (int k = 0; k < vertical; k++) {
+        for (int j = 0; j < aircraft.length; j++) {
+            for (int k = 0; k < aircraft[j].length; k++) {
                 boeing.print(aircraft[k][j] + " ");
             }
             boeing.println();
@@ -213,4 +161,3 @@ public class User {
         }
     }
 }
-

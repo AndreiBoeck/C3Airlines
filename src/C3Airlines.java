@@ -1,9 +1,7 @@
 
-import library.User;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Scanner;
-
+import library.User;
 public class C3Airlines {
     public static void main(String[] args) throws IOException, InterruptedException {
         User airline = new User();
