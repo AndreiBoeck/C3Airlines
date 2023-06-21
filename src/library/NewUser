@@ -165,3 +165,19 @@ public class UserNew {
         }
     }
 }
+//function notifyHelpdesk(){
+//let sally = SpreadsheetApp.getActive().getSheetByName("Sally Smith");
+//let data = sally.getRange("A2:C41").getValues();
+//let i = data[0]
+
+//for(i,i = data[42],i++){
+//if (data[i][0] === true && data[i][1]===true && data [i][2]===true && data[i][3] ===false){
+//MailApp.sendEmail({
+//to: "genericaddress@company.net",
+//subject: "New Invoice Submitted",
+//htmlBody: "A contractor has submitted a new invoice! Please find details in the Master Invoice    tracker sheet:www.fakelinktosheet.com"
+//});
+//}
+//}
+//}
+//https://stackoverflow.com/questions/76144418/how-do-i-iterate-through-sheet-rows-and-check-if-one-cell-in-row-is-false
