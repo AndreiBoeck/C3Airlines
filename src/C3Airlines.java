@@ -1,5 +1,5 @@
-import library.User;
 
+import library.User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class C3Airlines {
     public static void main(String[] args) throws IOException, InterruptedException {
         User airline = new User();
+
         Scanner in = new Scanner(System.in);
         int choice = -1;
         do{
