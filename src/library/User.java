@@ -10,6 +10,7 @@ import java.util.Scanner;
 //==Trabalho destinado a cadeira de fundamentos da programação==
 //==============================================================
 
+
 public class User {
     private static final String USER_DIR = System.getProperty("user.dir");
     private static final String os = System.getProperty("os.name").toLowerCase();
