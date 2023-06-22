@@ -1,9 +1,6 @@
 package library;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Scanner;
 
 //==============================================================
@@ -19,6 +16,26 @@ public class User {
 
     private final PrintStream file = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
     private String path;
+    private String aircraftName;
+    public User() throws FileNotFoundException {
+    }
+    private String getPath(int choice){
+        switch (choice) {
+            case 1 -> {
+                path = USER_DIR + "/library/source/Cessna Skylane";
+                aircraftName = "ERJ-145";
+            }
+            case 2 -> {
+                path = USER_DIR + "/library/source/Citation Ascend";
+                aircraftName = "Citation Ascend";
+            }
+            case 3 -> {
+                path = USER_DIR + "/library/source/Boeing 767-300ER";
+                aircraftName = "Boeing 767-300ER";
+            }
+        }
+        return path;
+    }
     private int horizontal(int choice) throws FileNotFoundException {
         FileReader file = new FileReader(USER_DIR + getPath(choice));
         Scanner fl = new Scanner(file);
@@ -36,24 +53,6 @@ public class User {
         return vertical;
     }
 
-    public User() throws FileNotFoundException {
-    }
-    private String getPath(int choice){
-        switch (choice) {
-            case 1 -> {
-                path = USER_DIR + "/library/source/Cessna Skylane";
-
-            }
-            case 2 -> {
-                path = USER_DIR + "/library/source/Citation Ascend";
-
-            }
-            case 3 -> {
-                path = USER_DIR + "/library/source/Boeing 767-300ER";
-            }
-        }
-        return path;
-    }
     public boolean[][] read(int choice) throws FileNotFoundException {
         FileReader fi = new FileReader(getPath(choice));
         Scanner in = new Scanner(fi);
@@ -65,7 +64,8 @@ public class User {
         }
         return aircraft;
     }
-    public void print(boolean[][] aircraft) {
+    public void print(int choice) throws FileNotFoundException {
+        boolean[][] aircraft = read(choice);
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
                 System.out.print(aircraft[k][j] + " ");
@@ -73,8 +73,12 @@ public class User {
             System.out.println();
         }
     }
-    public void sell(boolean[][] seats, String command) throws FileNotFoundException {
-        PrintStream boeing = new PrintStream(USER_DIR + "/library/source/Boeing 767-300ER");
+    public void sell(boolean[][] seats, int choice , String command) throws FileNotFoundException {
+        PrintStream boeing = new PrintStream(getPath(choice));
+        Scanner in = new Scanner(System.in);
+        String userSeat = command;
+        String seatType = "Não exclusivo";
+
         System.out.println(command);
         System.out.println(command);
 
@@ -99,14 +103,56 @@ public class User {
         line = number - 1;
         if (seats [column][line])
             System.out.println("Assento OCUPADO!");
+        else {
+            if (line < vertical(choice)/2) {
+                System.out.println("Deseja exclusividade?");
+                command = in.next();
+
+                if (command.startsWith("s") || command.startsWith("S")) {
+                    if (available(choice)) {
+                        for (int i = 0; i < horizontal(choice); i++) {
+                            for (int j = 0; j < vertical(choice) / 2; j++) {
+                                file.print(true + " ");
+                            }
+                            file.println();
+                        }
+                        seatType = "VIP";
+                    } else {
+                        System.out.println("Infelizmente a exclusividade não está disponivel nesta aeronave, um de nossos clientes ja comprou um ou mais assentos na area desejada");
+                    }
+                }
+            }
+            else {
+                System.out.println("A exclusividade está disponivel apenas na primeira metade do avião\nQuer trocar o assento?");
+                command = in.next();
+                if (command.startsWith("s") || command.startsWith("S")){
+                    System.out.println("Escolha novamente seu assento");
+                    command = in.next();
+                    sell(seats, choice,command);
+                }
+            }
+        }
+        System.out.println("Confirma a escolha?");
+        System.out.printf("%s\n%s\n%s\n",aircraftName, userSeat, seatType);
 
         for (int j = 0; j < 45; j++) {
-            for (int k = 0; k < 7; k++) {
+            for (int k = 0; k < vertical(choice); k++) {
                 boeing.print(seats[k][j] + " ");
             }
             boeing.println();
         }
 
+    }
+    private boolean available(int choice) throws FileNotFoundException {
+        boolean available = true;
+        for (int i = 0; i < horizontal(choice); i++) {
+            for (int j = 0; j < vertical(choice)/2; j++) {
+                if (read(choice)[i][j]){
+                    available = false;
+                }
+            }
+        }
+        return available;
     }
     public void reset(int choice) throws FileNotFoundException {
         PrintStream boeing = new PrintStream(getPath(choice));
@@ -165,6 +211,15 @@ public class User {
                 System.out.println("Cliente não encontrado");
                 break;
             }
+        }
+    }
+    public void clear() throws IOException, InterruptedException {
+
+        if(os.contains("win")){
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }
+        else{
+            new ProcessBuilder("clear").inheritIO().start().waitFor();
         }
     }
 }
