@@ -229,7 +229,7 @@ public class User {
                 case 3 -> input = "digite o numero de telefone";
                 case 4 -> input = "digite o email ";
                 case 5 -> input = "digite o tipo de documento";
-                case 6 -> input = "digite o numero do documnento";
+                case 6 -> input = "digite o numero do documento";
                 case 7 -> input = "digite o sexo";
                 case 8 -> input = "digite a nacionalidade";
                 case 9 -> input = "deseja bagagem extra? Quantas?";
@@ -243,7 +243,7 @@ public class User {
         }
         userdata.println();
     }
-    public void readUser(String name) throws FileNotFoundException {// localiza apenas um usuario
+    public void readUser(String name) throws FileNotFoundException {// localiza apenas um usuário
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
         Scanner fl = new Scanner(file);
         while (fl.hasNextLine()){
