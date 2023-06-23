@@ -22,7 +22,7 @@ public class User {
     private String getPath(int choice){
         switch (choice) {
             case 1 -> {
-                path = USER_DIR + "/library/source/Cessna Skylane";
+                path = USER_DIR + "/library/source/ERJ-145";
                 aircraftName = "ERJ-145";
             }
             case 2 -> {
@@ -37,14 +37,14 @@ public class User {
         return path;
     }
     private int horizontal(int choice) throws FileNotFoundException {
-        FileReader file = new FileReader(USER_DIR + getPath(choice));
+        FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
         String line = fl.nextLine();
-        String[] array = line.split(", ");
+        String[] array = line.split(" ");
         return array.length;
     }
     private int vertical(int choice) throws FileNotFoundException {
-        FileReader file = new FileReader(USER_DIR + getPath(choice));
+        FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
         int vertical = 0;
         while (fl.hasNextLine()){
@@ -54,7 +54,8 @@ public class User {
     }
 
     public boolean[][] read(int choice) throws FileNotFoundException {
-        FileReader fi = new FileReader(getPath(choice));
+        String teste = getPath(choice);
+        FileReader fi = new FileReader(teste);
         Scanner in = new Scanner(fi);
         boolean[][] aircraft = new boolean[horizontal(choice)][vertical(choice)];
         for (int j = 0; j < aircraft.length; j++) {
@@ -73,11 +74,12 @@ public class User {
             System.out.println();
         }
     }
-    public void sell(boolean[][] seats, int choice , String command) throws FileNotFoundException {
+    public void sell(int choice , String command) throws FileNotFoundException {
         PrintStream boeing = new PrintStream(getPath(choice));
         Scanner in = new Scanner(System.in);
         String userSeat = command;
         String seatType = "Não exclusivo";
+        boolean[][] seats = read(choice);
 
         System.out.println(command);
         System.out.println(command);
@@ -128,18 +130,23 @@ public class User {
                 if (command.startsWith("s") || command.startsWith("S")){
                     System.out.println("Escolha novamente seu assento");
                     command = in.next();
-                    sell(seats, choice,command);
+                    sell(choice, command);
                 }
             }
         }
         System.out.println("Confirma a escolha?");
         System.out.printf("%s\n%s\n%s\n",aircraftName, userSeat, seatType);
-
-        for (int j = 0; j < 45; j++) {
-            for (int k = 0; k < vertical(choice); k++) {
-                boeing.print(seats[k][j] + " ");
+        command = in.next();
+        if (command.startsWith("N") || command.startsWith("n")){
+            System.out.println("O processo deve ser iniciado do zero");
+        }
+        else {
+            for (int j = 0; j < 45; j++) {
+                for (int k = 0; k < vertical(choice); k++) {
+                    boeing.print(seats[k][j] + " ");
+                }
+                boeing.println("Assentos salvo, tenha uma boa viagem");
             }
-            boeing.println();
         }
 
     }
@@ -168,6 +175,15 @@ public class User {
             }
             boeing.println();
         }
+    }
+    public int destiny(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("[1] POA -> CGH(Sao Paulo - Congonhas) -- 19:45");//ERJ
+        System.out.println("[2] CGH -> SDU(Rio de Janeiro - Santos Dumont) -- 17:45");//ERJ
+        System.out.println("[3] POA -> CWB(Curitiba - Curitiba) -- 13:20");//Ascend
+        System.out.println("[4] POA -> LAX(Los Angeles - Los Angeles) -- 8:35");//Boeing
+        System.out.println("[5] POA -> LIS(Lisboa - Lisboa) -- 21:40");//Boeing
+        return in.nextInt();
     }
     public void createUser() throws FileNotFoundException {
         String[] client = new String[10];

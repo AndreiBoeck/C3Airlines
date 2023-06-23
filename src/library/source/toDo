@@ -1,0 +1,19 @@
+String[][] matriz = new String[10][7];
+
+andrei, ana,
+3
+3
+3
+3
+3
+
+for (int i = 0; i<colunas;i++){
+    for(int j = 0; j<pacientes;j++){
+        if(,atriz[i][j].startsWith("nomealeatorio"){
+            return j;
+        }
+    }
+    return 0;
+for(int i = 0; i < 7; i++){
+    Sytem.out.print(matriz[i][0]);
+}
