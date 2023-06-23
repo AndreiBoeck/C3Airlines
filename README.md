@@ -15,3 +15,13 @@ C3Airlines recognizes the importance of sustainable practices in aviation, and w
 With an extensive network of domestic and international destinations, C3Airlines connects you to the world, offering convenient and seamless travel experiences. Whether you're jetting off on a business trip or embarking on an adventure-filled vacation, C3Airlines is your trusted partner, providing reliable and efficient transportation services.
 
 Experience the unparalleled hospitality and exceptional service of C3Airlines, where each flight is a testament to our dedication to customer satisfaction. Let us take you on a remarkable journey, where the destination is just the beginning of an unforgettable travel experience. Welcome aboard C3Airlines!
+
+Fontes de consulta:
+Stackoverflow.com
+Oracle.com
+Professor Marcos Mangan
+Software enginier Lucas Alves Meotti(ajudou a formatar para os padrões de mercado)
+
+Dificuldades:
+Criar o Teste JUnity
+Tivemos dificuldades em ajeitar os vetores para que funcionacem corretamente, mas foi corrigido.
