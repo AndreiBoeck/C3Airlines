@@ -14,7 +14,7 @@ public class User {
     private static final String USER_DIR = System.getProperty("user.dir");
     private static final String os = System.getProperty("os.name").toLowerCase();
 
-    private final PrintStream file = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
+    private final PrintStream userdata = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
     private String path;
     private String aircraftName;
     public User() throws FileNotFoundException {
@@ -79,13 +79,14 @@ public class User {
         boolean[][] aircraft = read(choice);
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
-                System.out.print(aircraft[k][j] + " ");
+                System.out.print(aircraft[j][k] + " ");
             }
             System.out.println();
         }
     }
     public void sell(int choice , String command) throws FileNotFoundException {
         boolean[][] seats = read(choice);
+        boolean available = available(choice);
         PrintStream boeing = new PrintStream(getPath(choice));
         Scanner in = new Scanner(System.in);
         String userSeat = command;
@@ -113,24 +114,37 @@ public class User {
         };
 
         line = number - 1;
-        if (seats [line][column])
+        if (seats[line][column]){
             System.out.println("Assento OCUPADO!");
+            for (int j = 0; j < seats.length; j++) {
+                for (int k = 0; k < seats[j].length; k++) {
+                    boeing.print(seats[j][k] + " ");
+                }
+                boeing.println();
+            }
+            return;
+        }
         else {
-            if (line < vertical(choice)/2) {
+            if (line <= seats.length/2) {
                 System.out.println("Deseja exclusividade?");
                 command = in.next();
 
                 if (command.startsWith("s") || command.startsWith("S")) {
-                    if (available(choice)) {
-                        for (int i = 0; i < horizontal(choice); i++) {
-                            for (int j = 0; j < vertical(choice) / 2; j++) {
-                                file.print(true + " ");
+                    if (available) {
+                        for (int i = 0; i < seats.length / 2; i++) {
+                            for (int j = 0; j < seats[i].length; j++) {
+                                seats[i][j] = true;
                             }
-                            file.println();
                         }
                         seatType = "VIP";
                     } else {
                         System.out.println("Infelizmente a exclusividade não está disponivel nesta aeronave, um de nossos clientes ja comprou um ou mais assentos na area desejada");
+                        for (int j = 0; j < seats.length; j++) {
+                            for (int k = 0; k < seats[j].length; k++) {
+                                boeing.print(seats[j][k] + " ");
+                            }
+                            boeing.println();
+                        }
                     }
                 }
             }
@@ -140,7 +154,14 @@ public class User {
                 if (command.startsWith("s") || command.startsWith("S")){
                     System.out.println("Escolha novamente seu assento");
                     command = in.next();
+                    for (int j = 0; j < seats.length; j++) {
+                        for (int k = 0; k < seats[j].length; k++) {
+                            boeing.print(seats[j][k] + " ");
+                        }
+                        boeing.println();
+                    }
                     sell(choice, command);
+                    return;
                 }
             }
                 seats[line][column] = true;
@@ -152,6 +173,7 @@ public class User {
             System.out.println("O processo deve ser iniciado do zero");
         }
         else {
+            createUser(userSeat);
             for (int j = 0; j < seats.length; j++) {
                 for (int k = 0; k < seats[j].length; k++) {
                     boeing.print(seats[j][k] + " ");
@@ -166,7 +188,7 @@ public class User {
         boolean available = true;
         for (int i = 0; i < horizontal(choice); i++) {
             for (int j = 0; j < vertical(choice)/2; j++) {
-                if (read(choice)[i][j]){
+                if (read(choice)[j][i]){
                     available = false;
                 }
             }
@@ -198,8 +220,8 @@ public class User {
         System.out.println("[5] POA -> LIS(Lisboa - Lisboa) -- 21:40");//Boeing
         return in.nextInt();
     }
-    public void createUser() throws FileNotFoundException {
-        String[] client = new String[10];
+    public void createUser(String seats) throws FileNotFoundException {
+        String[] client = new String[11];
         Scanner in = new Scanner(System.in);
         String input = "";
         for (int j = 0; j < 10; j++) {
@@ -218,10 +240,11 @@ public class User {
             System.out.println(input);
             client[j] = in.nextLine();
         }
-        for (int j = 0; j < 10; j++) {
-            file.print(client[j] + ", ");
+        client[10] = seats;
+        for (int j = 0; j < 11; j++) {
+            userdata.print(client[j] + ", ");
         }
-        file.println();
+        userdata.println();
     }
     public void readUser(String name) throws FileNotFoundException {
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");

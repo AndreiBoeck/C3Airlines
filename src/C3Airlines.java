@@ -36,14 +36,19 @@ public class C3Airlines {
                 case 1 -> {
                     System.out.println("Escolha seu destino:");
                     destiny = airline.destiny();
-                    System.out.println("Escolha seu assento");
-                    command = in.next();
-                    switch (destiny) {
-                        case 1, 2 -> aircraft = 1;
-                        case 3 -> aircraft = 2;
-                        case 4, 5 -> aircraft = 3;
+                    airline.print(destiny);
+                    System.out.println("Quantos irão viajar?");
+                    int j = in.nextInt();
+                    for (int i = 0; i < j; i++) {
+                        System.out.println("Escolha seu assento");
+                        command = in.next();
+                        switch (destiny) {
+                            case 1, 2 -> aircraft = 1;
+                            case 3 -> aircraft = 2;
+                            case 4, 5 -> aircraft = 3;
+                        }
+                        airline.sell(aircraft, command);
                     }
-                    airline.sell(aircraft, command);
                 }
                 case 2 -> {
                     choice = in.nextInt();
