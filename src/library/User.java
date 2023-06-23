@@ -249,7 +249,7 @@ public class User {
         while (fl.hasNextLine()){
             String line = fl.nextLine();
             String[] pl = line.split(", ");
-            if(line.startsWith(name)){
+            if(pl[0].startsWith(name)){
                 for (int i = 0; i < 11; i++) {
                     switch (i){
                         case 0 -> System.out.print("Nome: ");
@@ -266,13 +266,10 @@ public class User {
                     }
                     System.out.println(pl[i]);
                 }
-                break;
-            }
-            else{
-                System.out.println("Cliente não encontrado");
-                break;
+                return;
             }
         }
+        System.out.println("Cliente não encontrado");
     }
     public void getAll() throws FileNotFoundException {//le todos os usuarios
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
