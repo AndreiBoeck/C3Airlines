@@ -17,6 +17,7 @@ public class User {
     private final PrintStream userdata = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
     private String path;
     private String aircraftName;
+    public double price = 0;
     public User() throws FileNotFoundException {
     }
     private String getPath(int choice){
@@ -134,6 +135,7 @@ public class User {
                         for (int i = 0; i < seats.length / 2; i++) {
                             for (int j = 0; j < seats[i].length; j++) {
                                 seats[i][j] = true;
+                                getPrice(choice);
                             }
                         }
                         seatType = "VIP";
@@ -214,10 +216,8 @@ public class User {
     public int destiny(){
         Scanner in = new Scanner(System.in);
         System.out.println("[1] POA -> CGH(Sao Paulo - Congonhas) -- 19:45");//ERJ
-        System.out.println("[2] CGH -> SDU(Rio de Janeiro - Santos Dumont) -- 17:45");//ERJ
-        System.out.println("[3] POA -> CWB(Curitiba - Curitiba) -- 13:20");//Ascend
-        System.out.println("[4] POA -> LAX(Los Angeles - Los Angeles) -- 8:35");//Boeing
-        System.out.println("[5] POA -> LIS(Lisboa - Lisboa) -- 21:40");//Boeing
+        System.out.println("[2] POA -> CWB(Curitiba - Curitiba) -- 13:20");//Ascend
+        System.out.println("[3] POA -> LAX(Los Angeles - Los Angeles) -- 8:35");//Boeing
         return in.nextInt();
     }
     public void createUser(String seats) throws FileNotFoundException {
@@ -248,13 +248,25 @@ public class User {
     }
     public void readUser(String name) throws FileNotFoundException {
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
-        Scanner in = new Scanner(System.in);
         Scanner fl = new Scanner(file);
         while (fl.hasNextLine()){
             String line = fl.nextLine();
             String[] pl = line.split(", ");
             if(line.startsWith(name)){
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 11; i++) {
+                    switch (i){
+                        case 0 -> System.out.print("Nome: ");
+                        case 1 -> System.out.print("CPF: ");
+                        case 2 -> System.out.print("Data de Nascimento: ");
+                        case 3 -> System.out.print("Numero de telefone: ");
+                        case 4 -> System.out.print("Email: ");
+                        case 5 -> System.out.print("Tipo de documento: ");
+                        case 6 -> System.out.print("Numero de documento: ");
+                        case 7 -> System.out.print("Sexo: ");
+                        case 8 -> System.out.print("Nacionalidade: ");
+                        case 9 -> System.out.print("Bagagem Extra: ");
+                        case 10 -> System.out.print("Assento: ");
+                    }
                     System.out.println(pl[i]);
                 }
                 break;
@@ -264,6 +276,39 @@ public class User {
                 break;
             }
         }
+    }
+    public void getAll() throws FileNotFoundException {
+        FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
+        Scanner fl = new Scanner(file);
+        while (fl.hasNextLine()) {
+            String line = fl.nextLine();
+            String[] pl = line.split(", ");
+            for (int i = 0; i < 11; i++) {
+                switch (i) {
+                    case 0 -> System.out.print("Nome: ");
+                    case 1 -> System.out.print("CPF: ");
+                    case 2 -> System.out.print("Data de Nascimento: ");
+                    case 3 -> System.out.print("Numero de telefone: ");
+                    case 4 -> System.out.print("Email: ");
+                    case 5 -> System.out.print("Tipo de documento: ");
+                    case 6 -> System.out.print("Numero de documento: ");
+                    case 7 -> System.out.print("Sexo: ");
+                    case 8 -> System.out.print("Nacionalidade: ");
+                    case 9 -> System.out.print("Bagagem Extra: ");
+                    case 10 -> System.out.print("Assento: ");
+                }
+                System.out.println(pl[i]);
+            }
+            System.out.println("--------------------------------------------------------------");
+        }
+    }
+    public void getPrice(int choice){
+        switch (choice){
+            case 1 -> price += 1500.00;
+            case 2 -> price += 1000.00;
+            case 3 -> price += 3200.00;
+        }
+
     }
     public void clear() throws IOException, InterruptedException {
 
