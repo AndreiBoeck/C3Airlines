@@ -41,6 +41,7 @@ public class C3Airlines {
                     System.out.println("R$" + airline.price);
                 }
                 case 2 -> {
+                    System.out.println("[1] ERJ-145\n[2] Citation Ascend\n[3] Boeing 767-300ER");
                     choice = in.nextInt();
                     boolean[][] teste= airline.read(choice);
                     for (int i = 0; i < teste.length; i++) {
@@ -56,6 +57,7 @@ public class C3Airlines {
                     airline.reset(aircraft);
                 }
                 case 4 ->{
+                    System.out.println("Qual o nome do Usuário?");
                     String name = in.next();
                     airline.readUser(name);
                 }

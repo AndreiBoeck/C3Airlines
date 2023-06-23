@@ -11,16 +11,16 @@ import java.util.Scanner;
 //==============================================================
 
 public class User {
-    private final String USER_DIR = System.getProperty("user.dir");
+    private final String USER_DIR = System.getProperty("user.dir");//Encontra onde esta o arquivo
     private final String os = System.getProperty("os.name").toLowerCase();
 
-    private final PrintStream userdata = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
+    private final PrintStream userdata = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));//Leitor comum do arquivo ClientsData
     private String path;
     private String aircraftName;
     public double price = 0;
     public User() throws FileNotFoundException {
     }
-    public String getPath(int choice){
+    public String getPath(int choice){//metodo utilizado para selecionar a aeronave
         switch (choice) {
             case 1 -> {
                 path = USER_DIR + "/library/source/ERJ-145";
@@ -37,7 +37,7 @@ public class User {
         }
         return path;
     }
-    private int horizontal(int choice) throws FileNotFoundException {
+    private int horizontal(int choice) throws FileNotFoundException {//metodo destinado a descobrir a quantidade de colunas
         FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
 
@@ -46,7 +46,7 @@ public class User {
 
         return array.length;
     }
-    private int vertical(int choice) throws FileNotFoundException {
+    private int vertical(int choice) throws FileNotFoundException {//metodo destinado a descobrir quantidade de linhas
         FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
 
@@ -59,7 +59,7 @@ public class User {
         return vertical;
     }
 
-    public boolean[][] read(int choice) throws FileNotFoundException {
+    public boolean[][] read(int choice) throws FileNotFoundException {//metodo feito para criar a matriz correspondente a cada aeronave
         FileReader file = new FileReader(getPath(choice));
 
         Scanner in = new Scanner(file);
@@ -73,7 +73,7 @@ public class User {
 
         return aircraft;
     }
-    public void print(int choice) throws FileNotFoundException {
+    public void print(int choice) throws FileNotFoundException {//metodo destinado a escrever a matriz anterior
         boolean[][] aircraft = read(choice);
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
@@ -82,7 +82,7 @@ public class User {
             System.out.println();
         }
     }
-    public void sell(int choice , String command) throws FileNotFoundException {
+    public void sell(int choice , String command) throws FileNotFoundException {//metodo feito para vender
         boolean[][] seats = read(choice);
         boolean available = available(choice);
         PrintStream boeing = new PrintStream(getPath(choice));
@@ -112,7 +112,7 @@ public class User {
         };
 
         line = number - 1;
-        if (seats[line][column]){
+        if (seats[line][column]){//aqui o programa descobre se o assento selecionado ja foi ocupado
             System.out.println("Assento OCUPADO!");
             for (int j = 0; j < seats.length; j++) {
                 for (int k = 0; k < seats[j].length; k++) {
@@ -123,7 +123,7 @@ public class User {
             return;
         }
         else {
-            if (line <= seats.length/2) {
+            if (line <= seats.length/2) {//Se o assento estiver em uma exclusiva ele o usuario é convidado a escolher se deseja alugar metade da aeronave para si
                 System.out.println("Deseja exclusividade?");
                 command = in.next();
 
@@ -183,7 +183,7 @@ public class User {
         }
 
     }
-    private boolean available(int choice) throws FileNotFoundException {
+    private boolean available(int choice) throws FileNotFoundException {//metodo destinado a saber se a exclusividade esta disponivel
         boolean available = true;
         for (int i = 0; i < horizontal(choice); i++) {
             for (int j = 0; j < vertical(choice)/2; j++) {
@@ -194,7 +194,7 @@ public class User {
         }
         return available;
     }
-    public void reset(int choice) throws FileNotFoundException {
+    public void reset(int choice) throws FileNotFoundException {// Feito para recriar a aeronave
         boolean[][] aircraft = read(choice);
         PrintStream boeing = new PrintStream(getPath(choice));
         for (int j = 0; j < aircraft.length; j++) {
@@ -210,14 +210,14 @@ public class User {
         }
         System.out.println("A aeronave foi redefinida");
     }
-    public int destiny(){
+    public int destiny(){//Escolha de destino
         Scanner in = new Scanner(System.in);
         System.out.println("[1] POA -> CGH(Sao Paulo - Congonhas) -- 19:45");//ERJ
         System.out.println("[2] POA -> CWB(Curitiba - Curitiba) -- 13:20");//Ascend
         System.out.println("[3] POA -> LAX(Los Angeles - Los Angeles) -- 8:35");//Boeing
         return in.nextInt();
     }
-    public void createUser(String seats) throws FileNotFoundException {
+    public void createUser(String seats) throws FileNotFoundException {//metodo para criar e gravar os usuarios
         String[] client = new String[11];
         Scanner in = new Scanner(System.in);
         String input = "";
@@ -243,7 +243,7 @@ public class User {
         }
         userdata.println();
     }
-    public void readUser(String name) throws FileNotFoundException {
+    public void readUser(String name) throws FileNotFoundException {// localiza apenas um usuario
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
         Scanner fl = new Scanner(file);
         while (fl.hasNextLine()){
@@ -274,7 +274,7 @@ public class User {
             }
         }
     }
-    public void getAll() throws FileNotFoundException {
+    public void getAll() throws FileNotFoundException {//le todos os usuarios
         FileReader file = new FileReader(USER_DIR + "/library/source/clientsdata");
         Scanner fl = new Scanner(file);
         while (fl.hasNextLine()) {
@@ -299,7 +299,7 @@ public class User {
             System.out.println("--------------------------------------------------------------");
         }
     }
-    public void getPrice(int choice){
+    public void getPrice(int choice){//calcula o preço total
         switch (choice){
             case 1 -> price += 1500.00;
             case 2 -> price += 1000.00;
@@ -307,7 +307,7 @@ public class User {
         }
 
     }
-    public void clear() throws IOException, InterruptedException {
+    public void clear() throws IOException, InterruptedException {//limpa a tela de escolha para evitar a poluição visual
 
         if(os.contains("win")){
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
