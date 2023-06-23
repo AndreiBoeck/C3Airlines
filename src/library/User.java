@@ -11,8 +11,8 @@ import java.util.Scanner;
 //==============================================================
 
 public class User {
-    private static final String USER_DIR = System.getProperty("user.dir");
-    private static final String os = System.getProperty("os.name").toLowerCase();
+    private final String USER_DIR = System.getProperty("user.dir");
+    private final String os = System.getProperty("os.name").toLowerCase();
 
     private final PrintStream userdata = new PrintStream(new FileOutputStream(USER_DIR + "/library/source/clientsdata", true));
     private String path;
@@ -20,7 +20,7 @@ public class User {
     public double price = 0;
     public User() throws FileNotFoundException {
     }
-    private String getPath(int choice){
+    public String getPath(int choice){
         switch (choice) {
             case 1 -> {
                 path = USER_DIR + "/library/source/ERJ-145";
@@ -36,9 +36,6 @@ public class User {
             }
         }
         return path;
-    }
-    public void teste(){
-        System.out.println("aaa");
     }
     private int horizontal(int choice) throws FileNotFoundException {
         FileReader file = new FileReader(getPath(choice));

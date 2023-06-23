@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="C3Airlines" />
+    <module name="GOL" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
