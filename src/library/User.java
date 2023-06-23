@@ -36,33 +36,43 @@ public class User {
         }
         return path;
     }
+    public void teste(){
+        System.out.println("aaa");
+    }
     private int horizontal(int choice) throws FileNotFoundException {
         FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
+
         String line = fl.nextLine();
         String[] array = line.split(" ");
+
         return array.length;
     }
     private int vertical(int choice) throws FileNotFoundException {
         FileReader file = new FileReader(getPath(choice));
         Scanner fl = new Scanner(file);
+
         int vertical = 0;
         while (fl.hasNextLine()){
             vertical++;
+            fl.nextLine();
         }
+
         return vertical;
     }
 
     public boolean[][] read(int choice) throws FileNotFoundException {
-        String teste = getPath(choice);
-        FileReader fi = new FileReader(teste);
-        Scanner in = new Scanner(fi);
-        boolean[][] aircraft = new boolean[horizontal(choice)][vertical(choice)];
+        FileReader file = new FileReader(getPath(choice));
+
+        Scanner in = new Scanner(file);
+
+        boolean[][] aircraft = new boolean[vertical(choice)][horizontal(choice)];
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
                 aircraft[j][k] = in.nextBoolean();
             }
         }
+
         return aircraft;
     }
     public void print(int choice) throws FileNotFoundException {
@@ -75,11 +85,11 @@ public class User {
         }
     }
     public void sell(int choice , String command) throws FileNotFoundException {
+        boolean[][] seats = read(choice);
         PrintStream boeing = new PrintStream(getPath(choice));
         Scanner in = new Scanner(System.in);
         String userSeat = command;
         String seatType = "Não exclusivo";
-        boolean[][] seats = read(choice);
 
         System.out.println(command);
         System.out.println(command);
@@ -103,7 +113,7 @@ public class User {
         };
 
         line = number - 1;
-        if (seats [column][line])
+        if (seats [line][column])
             System.out.println("Assento OCUPADO!");
         else {
             if (line < vertical(choice)/2) {
@@ -133,6 +143,7 @@ public class User {
                     sell(choice, command);
                 }
             }
+                seats[line][column] = true;
         }
         System.out.println("Confirma a escolha?");
         System.out.printf("%s\n%s\n%s\n",aircraftName, userSeat, seatType);
@@ -141,12 +152,13 @@ public class User {
             System.out.println("O processo deve ser iniciado do zero");
         }
         else {
-            for (int j = 0; j < 45; j++) {
-                for (int k = 0; k < vertical(choice); k++) {
-                    boeing.print(seats[k][j] + " ");
+            for (int j = 0; j < seats.length; j++) {
+                for (int k = 0; k < seats[j].length; k++) {
+                    boeing.print(seats[j][k] + " ");
                 }
-                boeing.println("Assentos salvo, tenha uma boa viagem");
+                boeing.println();
             }
+            System.out.println("Assentos salvo, tenha uma boa viagem");
         }
 
     }
@@ -162,19 +174,20 @@ public class User {
         return available;
     }
     public void reset(int choice) throws FileNotFoundException {
+        boolean[][] aircraft = read(choice);
         PrintStream boeing = new PrintStream(getPath(choice));
-        boolean[][] aircraft = new boolean[vertical(choice)][horizontal(choice)];
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
-                aircraft[k][j] = false;
+                aircraft[j][k] = false;
             }
         }
         for (int j = 0; j < aircraft.length; j++) {
             for (int k = 0; k < aircraft[j].length; k++) {
-                boeing.print(aircraft[k][j] + " ");
+                boeing.print(aircraft[j][k] + " ");
             }
             boeing.println();
         }
+        System.out.println("A aeronave foi redefinida");
     }
     public int destiny(){
         Scanner in = new Scanner(System.in);
